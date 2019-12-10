@@ -3090,8 +3090,6 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 			mainGame->dField.current_chain.chain_pos.X += 0.35f;
 		else
 			mainGame->dField.current_chain.chain_pos.Y += chc * 0.25f;
-		if (auto_watch_mode && (mainGame->dField.current_chain.chain_card->location & LOCATION_ONFIELD))
-			mainGame->ShowCardInfo(mainGame->dField.current_chain.chain_card->code);
 		return true;
 	}
 	case MSG_CHAINED: {
@@ -3491,6 +3489,16 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 		int s = BufferIO::ReadInt8(pbuf);
 		int count = BufferIO::ReadInt16(pbuf);
 		ClientCard* pc = mainGame->dField.GetCard(c, l, s);
+		if (auto_watch_mode && pc->code > 0) {
+			myswprintf(event_string, dataManager.GetSysString(1610), dataManager.GetName(pc->code));
+			mainGame->showcardcode = pc->code;
+			mainGame->showcarddif = 0;
+			mainGame->showcardp = 0;
+			mainGame->showcard = 5;
+			mainGame->WaitFrameSignal(30);
+			mainGame->showcard = 0;
+			mainGame->WaitFrameSignal(11);
+		}
 		if (pc->counters.count(type))
 			pc->counters[type] += count;
 		else pc->counters[type] = count;
