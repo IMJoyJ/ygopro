@@ -2148,6 +2148,12 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 			pcard = *(mainGame->dField.deck[player].rbegin() + i);
 			if (code != 0)
 				pcard->SetCode(code);
+			if (auto_watch_mode && code > 0) {
+				mainGame->showcardcode = code;
+				mainGame->showcarddif = 0;
+				mainGame->showcardp = 0;
+				mainGame->showcard = 4;
+			}
 		}
 		if(mainGame->dInfo.isReplaySkiping)
 			return true;
@@ -2195,6 +2201,12 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 			pcard = *(mainGame->dField.extra[player].rbegin() + i + mainGame->dField.extra_p_count[player]);
 			if (code != 0)
 				pcard->SetCode(code);
+			if (auto_watch_mode && code > 0) {
+				mainGame->showcardcode = code;
+				mainGame->showcarddif = 0;
+				mainGame->showcardp = 0;
+				mainGame->showcard = 4;
+			}
 		}
 		if(mainGame->dInfo.isReplaySkiping)
 			return true;
@@ -2255,6 +2267,12 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 				pcard = mainGame->dField.GetCard(c, l, s);
 			if (code != 0)
 				pcard->SetCode(code);
+			if (auto_watch_mode && code > 0) {
+				mainGame->showcardcode = code;
+				mainGame->showcarddif = 0;
+				mainGame->showcardp = 0;
+				mainGame->showcard = 4;
+			}
 			mainGame->gMutex.lock();
 			myswprintf(textBuffer, L"*[%ls]", dataManager.GetName(code));
 			mainGame->AddLog(textBuffer, code);
@@ -3493,14 +3511,10 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 		int count = BufferIO::ReadInt16(pbuf);
 		ClientCard* pc = mainGame->dField.GetCard(c, l, s);
 		if (auto_watch_mode && pc->code > 0) {
-			myswprintf(event_string, dataManager.GetSysString(1610), dataManager.GetName(pc->code));
 			mainGame->showcardcode = pc->code;
 			mainGame->showcarddif = 0;
 			mainGame->showcardp = 0;
-			mainGame->showcard = 5;
-			mainGame->WaitFrameSignal(30);
-			mainGame->showcard = 0;
-			mainGame->WaitFrameSignal(11);
+			mainGame->showcard = 2;
 		}
 		if (pc->counters.count(type))
 			pc->counters[type] += count;
