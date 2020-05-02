@@ -101,9 +101,6 @@ void DuelClient::StopClient(bool is_exiting) {
 	if(connect_state != 0x7)
 		return;
 	is_closing = is_exiting;
-	if(!is_closing) {
-
-	}
 	event_base_loopbreak(client_base);
 }
 void DuelClient::ClientRead(bufferevent* bev, void* ctx) {
