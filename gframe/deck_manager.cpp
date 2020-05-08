@@ -204,17 +204,17 @@ bool DeckManager::LoadSide(Deck& deck, int* dbuf, int mainc, int sidec) {
 		pcount[deck.side[i]->first]++;
 	Deck ndeck;
 	LoadDeck(ndeck, dbuf, mainc, sidec);
-	if(ndeck.main.size() != deck.main.size() || ndeck.extra.size() != deck.extra.size())
-		return false;
+	//if(ndeck.main.size() != deck.main.size() || ndeck.extra.size() != deck.extra.size())
+	//	return false;
 	for(size_t i = 0; i < ndeck.main.size(); ++i)
 		ncount[ndeck.main[i]->first]++;
 	for(size_t i = 0; i < ndeck.extra.size(); ++i)
 		ncount[ndeck.extra[i]->first]++;
 	for(size_t i = 0; i < ndeck.side.size(); ++i)
 		ncount[ndeck.side[i]->first]++;
-	for(auto cdit = ncount.begin(); cdit != ncount.end(); ++cdit)
-		if(cdit->second != pcount[cdit->first])
-			return false;
+	//for(auto cdit = ncount.begin(); cdit != ncount.end(); ++cdit)
+	//	if(cdit->second != pcount[cdit->first])
+	//		return false;
 	deck = ndeck;
 	return true;
 }
