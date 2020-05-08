@@ -54,6 +54,8 @@ template<size_t N, typename... TR>
 inline int myswprintf(wchar_t(&buf)[N], const wchar_t* fmt, TR... args) {
 	return swprintf(buf, N, fmt, args...);
 }
+#define YGOPRO_SERVER_MODE
+#define YGOPRO_DC_SERVER_MODE
 
 #ifndef YGOPRO_SERVER_MODE
 #include <irrlicht.h>
