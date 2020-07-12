@@ -491,9 +491,21 @@ void Game::DrawMisc() {
 		driver->drawVertexPrimitiveList(matManager.vActivate, 4, matManager.iRectangle, 2);
 	}
 	if(dField.conti_act) {
-		im.setTranslation(vector3df((matManager.vFieldContiAct[0].X + matManager.vFieldContiAct[1].X) / 2,
-			(matManager.vFieldContiAct[0].Y + matManager.vFieldContiAct[2].Y) / 2, 0.03f));
+		irr::core::vector3df pos = vector3df((matManager.vFieldContiAct[0].X + matManager.vFieldContiAct[1].X) / 2,
+			(matManager.vFieldContiAct[0].Y + matManager.vFieldContiAct[2].Y) / 2, 0);
+		im.setRotationRadians(irr::core::vector3df(0, 0, 0));
+		for(auto cit = dField.conti_cards.begin(); cit != dField.conti_cards.end(); ++cit) {
+			im.setTranslation(pos);
+			driver->setTransform(irr::video::ETS_WORLD, im);
+			matManager.mCard.setTexture(0, imageManager.GetTexture((*cit)->code));
+			driver->setMaterial(matManager.mCard);
+			driver->drawVertexPrimitiveList(matManager.vCardFront, 4, matManager.iRectangle, 2);
+			pos.Z += 0.03f;
+		}
+		im.setTranslation(pos);
+		im.setRotationRadians(act_rot);
 		driver->setTransform(irr::video::ETS_WORLD, im);
+		driver->setMaterial(matManager.mTexture);
 		driver->drawVertexPrimitiveList(matManager.vActivate, 4, matManager.iRectangle, 2);
 	}
 	if(dField.chains.size() > 1 || mainGame->gameConf.draw_single_chain) {
@@ -1069,6 +1081,7 @@ void Game::ShowElement(irr::gui::IGUIElement * win, int autoframe) {
 			btnCardDisplay[i]->setDrawImage(false);
 	}
 	win->setRelativePosition(irr::core::recti(center.X, center.Y, 0, 0));
+	win->setVisible(true);
 	fadingList.push_back(fu);
 }
 void Game::HideElement(irr::gui::IGUIElement * win, bool set_action) {
