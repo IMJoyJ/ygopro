@@ -326,6 +326,7 @@ bool ReplayMode::ReplayAnalyze(char* msg, unsigned int len) {
 			mainGame->gMutex.unlock();
 			mainGame->actionSignal.Reset();
 			if (auto_watch_mode){
+				ErrorLog("Error occured when playing replay");
 				mainGame->actionSignal.Wait(2000);
 				mainGame->device->closeDevice();
 			}
