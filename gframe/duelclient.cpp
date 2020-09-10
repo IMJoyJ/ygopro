@@ -101,9 +101,6 @@ void DuelClient::StopClient(bool is_exiting) {
 	if(connect_state != 0x7)
 		return;
 	is_closing = is_exiting;
-	if(!is_closing) {
-
-	}
 	event_base_loopbreak(client_base);
 }
 void DuelClient::ClientRead(bufferevent* bev, void* ctx) {
@@ -3095,8 +3092,6 @@ int DuelClient::ClientAnalyze(char * msg, unsigned int len) {
 			mainGame->dField.current_chain.chain_pos.X += 0.35f;
 		else
 			mainGame->dField.current_chain.chain_pos.Y += chc * 0.25f;
-		if (auto_watch_mode && (mainGame->dField.current_chain.chain_card->location & LOCATION_ONFIELD))
-			mainGame->ShowCardInfo(mainGame->dField.current_chain.chain_card->code);
 		return true;
 	}
 	case MSG_CHAINED: {
